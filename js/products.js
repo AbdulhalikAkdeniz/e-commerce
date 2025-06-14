@@ -1,13 +1,54 @@
 import { product1 } from "./glide.js";
 
-function productsFunc(){
-    const products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")): [];
+let products = localStorage.getItem("products")
+    ? JSON.parse(localStorage.getItem("products"))
+    : [];
+
+let cart = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+
+
+function addToCart() {
+    const cartItems = document.querySelector(".header-cart-count");
+    const buttons = [...document.getElementsByClassName("add-to-cart")];
+    buttons.forEach((button) => {
+        const inCart = cart.find((item) => item.id === Number(button.dataset.id));
+        if (inCart) {
+            button.setAttribute("disabled", "disabled");
+        } else {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                const id = e.target.dataset.id;
+                const findProduct = products.find(
+                    (product) => product.id === Number(id)
+                );
+                cart.push({ ...findProduct, quantity: 1 });
+                localStorage.setItem("cart", JSON.stringify(cart));
+                button.setAttribute("disabled", "disabled");
+                cartItems.innerHTML = cart.length;
+            });
+        }
+    });
+}
+
+function productRoute() {
+    const productLink = document.getElementsByClassName("product-link");
+    Array.from(productLink).forEach((button) => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const id = e.target.dataset.id;
+            localStorage.setItem("productId", JSON.stringify(id));
+            window.location.href = "single-product.html";
+        });
+    });
+}
+
+function productsFunc() {
 
     const productsContainer = document.getElementById("product-list");
 
     let results = "";
 
-    products.forEach((item)=>{
+    products.forEach((item) => {
         results += `
         <li class="product-item glide__slide">
             <div class="product-image">
@@ -41,13 +82,13 @@ function productsFunc(){
                 </div>
                 <span class="product-discount">-${item.discount}%</span>
                 <div class="product-links">
-                    <button>
+                    <button class="add-to-cart" data-id=${item.id}>
                         <i class="bi bi-basket-fill"></i>
                     </button>
                     <button>
                         <i class="bi bi-heart-fill"></i>
                     </button>
-                    <a href="#">
+                    <a href="#" class="product-link" data-id=${item.id}>
                         <i class="bi-eye-fill"></i>
                     </a>
                     <a href="#">
@@ -57,9 +98,11 @@ function productsFunc(){
             </div>
         </li>
         `;
-    productsContainer.innerHTML = results;
+        productsContainer ? (productsContainer.innerHTML = results) : "";
+        addToCart();
     });
     product1();
+    productRoute();
 }
 
-export default productsFunc();
+export default productsFunc;
