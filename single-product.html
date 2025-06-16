@@ -358,7 +358,8 @@
                                     </div>
                                     <div class="cart-button">
                                         <input type="number" value="1" min="1" id="quantity">
-                                        <button class="btn btn-lg btn-primary" id="add-to-cart" type="button">Add to cart</button>
+                                        <button class="btn btn-lg btn-primary" id="add-to-cart" type="button">Add to
+                                            cart</button>
                                     </div>
                                     <div class="product-extra-buttons">
                                         <a href="#">
@@ -582,8 +583,7 @@
                                             <span class="required">*</span>
                                         </label>
 
-                                        <textarea id="comment" cols="50" rows="10">
-                                        </textarea>
+                                        <textarea id="comment-text" cols="50" rows="10" required></textarea>
 
                                     </div>
 
@@ -593,7 +593,7 @@
                                             Name
                                             <span class="required">*</span>
                                         </label>
-                                        <input id="name" type="text">
+                                        <input id="comment-name" type="text" required>
 
                                     </div>
 
@@ -607,7 +607,7 @@
                                     </div>
 
                                     <div class="comment-form-cookies">
-                                        <input id="cookies" type="checkbox">
+                                        <input id="cookies" name="cookies" type="checkbox">
                                         <label for="cookies">
                                             Save my name, email, and website in this browser for the next time I
                                             comment.
